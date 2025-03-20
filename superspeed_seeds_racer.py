@@ -618,7 +618,7 @@ def show_shop(screen, seed_count, current_level):
 
         c3=GRAY if option3_button.collidepoint(mouse_pos) else (100,100,100)
         pygame.draw.rect(screen,c3,option3_button)
-        opt3_text=FONT_SM.render(f"Shield: {('Yes' if player_upgrades['shield']>0 else 'No')}  Cost: {cost3} seeds",True,WHITE)
+        opt3_text=FONT_SM.render(f"Shield: {('Yes' if player_upgrades['shield']>0 else 'No')} | Cost: {cost3} seeds",True,WHITE)
         screen.blit(opt3_text,(option3_button.centerx - opt3_text.get_width()//2,
                                option3_button.centery - opt3_text.get_height()//2))
 
