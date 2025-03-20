@@ -34,23 +34,19 @@ Once a mighty **Superseed**, you’ve lost your powers to the **Withering Curse 
 - Python 3.10+  
 - Pygame
 
-1. **Clone** the repository:
+1. **Clone the repository**:
     ```bash
-    git clone https://github.com/Danielkis97/Superspeed-Seeds-Racing-Royale
+    git clone https://github.com/Danielkis97/Superspeed-Seeds-Racing-Royale.git
+    cd Superspeed-Seeds-Racing-Royale
     ```
-2. **Navigate** to the project folder:
-    ```bash
-    cd superspeed-seeds
-    ```
-3. **Install** Pygame (if you haven’t already):
+2. **Install `pygame`** (if you haven’t already):
     ```bash
     pip install pygame
     ```
-4. **Run** the game:
+3. **Run the game**:
     ```bash
     python superspeed_seeds_racer.py
     ```
-
     ---
 
 ## 🎮 Controls
