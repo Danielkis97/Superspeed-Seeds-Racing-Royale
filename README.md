@@ -97,7 +97,7 @@ Once a mighty **Superseed**, you’ve lost your powers to the **Withering Curse 
 |-------------|-------------------------------|
 | **Rain** 🌧️ | −20% acceleration            |
 | **Fog** 🌫️  | Reduced visibility (overlay) |
-| **Wind** 💨 | +0.3 horizontal drift         |
+| **Wind** 💨 | +40% horizontal drift         |
 | **Snow** ❄️ | −50% acceleration            |
 
 ---
