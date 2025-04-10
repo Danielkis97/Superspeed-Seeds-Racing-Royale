@@ -150,25 +150,46 @@ Randomly encountered after winning levels (4% chance), offering bonus rewards:
 
 ## 🚀 How to Play
 
-1.  **Download:** Download the project files (e.g., as a ZIP) or clone the repository using Git:
-    ```bash
-    git clone https://github.com/Danielkis97/Superspeed-Seeds-Racing-Royale/
-    ```
-2.  **Install Requirements:**
-    *   Make sure you have Python 3 installed (version 3.10+ recommended).
+1.  **Download/Clone:**
+    *   Download the project files (e.g., as a ZIP and extract it) OR clone the repository using Git:
+        ```bash
+        git clone https://github.com/Danielkis97/Superspeed-Seeds-Racing-Royale/
+        ```
+2.  **Navigate to Project Folder:**
     *   Open your terminal or command prompt.
-    *   Navigate (`cd`) into the downloaded/cloned project folder (the one containing `main.py`).
-    *   Install the necessary libraries:
+    *   Use the `cd` command to go into the main project folder (the one containing `main.py`, `Assets`, `media`, etc.).
+        ```bash
+        cd path/to/Superspeed-Seeds-Racing-Royale
+        ```
+3.  **Create & Activate Virtual Environment (Recommended):**
+    *   It's best practice to create an isolated environment for the project's dependencies.
+    *   **Create:**
+        ```bash
+        python -m venv .venv
+        ```
+        *(If `python` doesn't work, try `python3`)*. This creates a `.venv` folder in your project directory.
+    *   **Activate:**
+        *   **Windows (Command Prompt):** `.venv\Scripts\activate.bat`
+        *   **Windows (PowerShell):** `.venv\Scripts\Activate.ps1` (You might need to adjust execution policy: `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process`)
+        *   **macOS/Linux (Bash/Zsh):** `source .venv/bin/activate`
+    *   You'll know it's active when you see `(.venv)` at the beginning of your terminal prompt.
+
+4.  **Install Requirements:**
+    *   **With the virtual environment active**, install the necessary libraries:
         ```bash
         pip install pygame numpy moviepy
         ```
+        *(If `pip` doesn't work, try `pip3`)*.
         *Note: `numpy` and `moviepy` are only needed for the optional intro video.*
-3.  **Run the Game:**
-    *   While still in the project folder in your terminal, run:
+5.  **Run the Game:**
+    *   **Make sure your virtual environment is still active.**
+    *   Run the main script:
         ```bash
         python main.py
         ```
-4.  **Enjoy!** Use the main menu options to start, view leaderboards, manage permanent upgrades (Vault), or see achievements.
+        *(If `python` doesn't work, try `python3`)*.
+6.  **Enjoy!** Use the main menu options to start, view leaderboards, manage permanent upgrades (Vault), or see achievements.
+7.  **(Optional) Deactivate Environment:** When you're done playing, you can deactivate the virtual environment by simply typing `deactivate` in the terminal and pressing Enter.
 
 ---
 
