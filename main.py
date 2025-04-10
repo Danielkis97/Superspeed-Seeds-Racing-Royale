@@ -1,6 +1,3 @@
-# --- START OF FILE main.py ---
-
-
 import pygame, os, time, random, math, json, sys, traceback
 
 # --- Library Import with Detailed Checks ---
@@ -52,7 +49,7 @@ try:
         if not MOVIEPY_AVAILABLE:
             print("- MoviePy library not found or failed to import.")
         print("- Video playback functionality will be disabled.")
-        print("- Please ensure both are installed: `pip install numpy moviepy`")
+        print("- Please ensure both are installed: pip install numpy moviepy")
         print("-" * 30)
 
 except Exception as e_outer:
@@ -72,6 +69,7 @@ print("--- Library Check Complete ---")
 
 from settings import *
 # --- Import game objects including new powerups and effects ---
+# <<< CHANGE: Import circle_collision here >>>
 from game_objects import (Player, Enemy, CollectibleSeed, FinishLine, ShooterEnemy,
                           Projectile, Particle, MagnetPowerUp, FreezePowerUp,
                           ShieldPowerUp, DoubleSeedPowerUp, AbilityEffect,
@@ -79,6 +77,8 @@ from game_objects import (Player, Enemy, CollectibleSeed, FinishLine, ShooterEne
                           FireEnemy, WaterEnemy, FrostEnemy, UnderworldEnemy,
                           DesertEnemy, JungleEnemy, SpaceEnemy, CyberEnemy,
                           MysticEnemy, SuperseedEnemy) # Updated import list
+# <<< END CHANGE >>>
+
 # --- Import UI elements including new ones ---
 from ui import (draw_game_border, draw_current_world_and_weather,
                 show_level_clear, pause_menu, main_menu, display_leaderboard, hall_of_seeds,
@@ -107,6 +107,12 @@ def save_save_data(data):
         print(f"Error saving data: {e}")
 # ---------------------------------------------------------------------------------------
 
+# <<< NOTE: circle_collision function remains here >>>
+# def circle_collision(sprite1, sprite2):
+#     # ... (function definition as it was in main.py) ...
+
+# main.py - FÜGE DIESEN CODE-BLOCK WIEDER EIN (z.B. nach den Imports)
+
 def circle_collision(sprite1, sprite2):
     # Prioritize using pos_x/pos_y and radius if available
     px = getattr(sprite1, 'pos_x', None)
@@ -131,12 +137,15 @@ def circle_collision(sprite1, sprite2):
     rect2 = getattr(sprite2, 'rect', None)
 
     if rect1 is None or rect2 is None:
-        print("Warning: Cannot perform collision check - sprites missing rect.")
-        return False # Cannot collide if rects are missing
+        # This case should ideally not happen if sprites are set up correctly
+        # print("Warning: Cannot perform collision check - sprites missing rect or circle properties.")
+        return False # Cannot collide if essential properties are missing
 
     # Use rect-based collision if circle properties were incomplete
     # print("Warning: Falling back to rect collision.") # Optional debug
     return pygame.sprite.collide_rect(sprite1, sprite2)
+
+
 
 # --- CORRECTED: Definition moved back to main.py ---
 def collide_circle_precise_seed(player_sprite, seed_sprite):
@@ -423,7 +432,7 @@ def run_level(screen, level, current_seed_count, shop_upgrades, player_upgrades,
     player_start_angle = start_angle if start_angle is not None else default_angle
 
     player = Player(player_start_x, player_start_y, character=character)
-    # Player angle and rotation set correctly in Player.__init__ based on start_angle
+    # Player angle and rotation set correctly in Player._init_ based on start_angle
     player.angle = player_start_angle # Set movement angle
     player.visual_angle = player_start_angle # Sync visual angle
     # --- FIX: Explicitly set last_ability_time loaded from checkpoint ---
@@ -921,7 +930,7 @@ def run_level(screen, level, current_seed_count, shop_upgrades, player_upgrades,
                     elif total_magnets_ever >= 50: add_achievement_func(ACH_GRAVITY_WELL, achievement_banners, unlocked_achievements_this_session)
                     elif total_magnets_ever >= 25: add_achievement_func(ACH_ATTRACTOR_NODE, achievement_banners, unlocked_achievements_this_session)
             elif pu_type == "shield":
-                # Re-check shield status *at the moment of pickup*
+                # Re-check shield status at the moment of pickup
                 has_permanent_shield_local = player.upgrades.get("shield", 0) > 0
                 is_temp_shield_powerup_active_local = current_time_sec < player.temp_shield_end_time
                 is_chosen_invincible_local = (player.character == 4 and player.ability_active) or (
@@ -981,7 +990,6 @@ def run_level(screen, level, current_seed_count, shop_upgrades, player_upgrades,
                     try: pygame.draw.line(screen, proj.color, (int(start_x_p), int(start_y_p)), proj.rect.center, 2)
                     except TypeError: pass
         for p in particles: screen.blit(p.image, p.rect)
-
         # Player Trail Drawing (Absolute coords)
         player_trail_color = PLAYER_TRAIL_COLORS.get(player.character, TRAIL_COLOR_DEFAULT)
         trail_alpha_mult = player.trail_intensity_multiplier
@@ -1189,12 +1197,19 @@ def run_level(screen, level, current_seed_count, shop_upgrades, player_upgrades,
 
     minigame_occurred = False
     # --- FIX: Handle minigame results and death ---
+    # <<< CHANGE: Minigame check moved inside the main level loop processing >>>
     if level_outcome == "win" and level < MAX_LEVEL and random.random() < 0.05:
          minigame_occurred = True
          minigames = [ ("Seed Harvest Frenzy", minigame_1, "Seeds Collected"), ("David’s Revenge", minigame_2, "1 SUPR"), ("Inverse Gauntlet", minigame_3, "2 SUPR") ]
          minigame_name, minigame_func, rewards = random.choice(minigames)
          announce_mini_game(screen, minigame_name, rewards)
-         minigame_result = minigame_func(screen, selected_character=character)
+
+         # <<< CHANGE: Pass collision function to minigame 2 and 3 >>>
+         if minigame_func == minigame_1:
+             minigame_result = minigame_func(screen, selected_character=character)
+         else:
+             minigame_result = minigame_func(screen, selected_character=character, collision_func=circle_collision)
+         # <<< END CHANGE >>>
 
          if isinstance(minigame_result, tuple): # Seed Harvest (minigame_1)
              success, extra_seeds = minigame_result
@@ -1204,7 +1219,9 @@ def run_level(screen, level, current_seed_count, shop_upgrades, player_upgrades,
                  if add_achievement_func: add_achievement_func(ACH_SEED_HARVEST_VICTOR, None, unlocked_achievements_this_session_main)
                  save_save_data(save_data)
              elif success == "menu": level_outcome = "menu" # Quit to main menu
-             else: print(f"{minigame_name} failed or exited (loss).") # Treat False as loss (no reward)
+             # <<< CHANGE: Handle False return (loss) - No specific action needed, just print >>>
+             elif success is False: print(f"{minigame_name} failed or exited (loss).")
+             # <<< END CHANGE >>>
 
          elif isinstance(minigame_result, bool): # David's Revenge (minigame_2) or Inverse Gauntlet (minigame_3)
              if minigame_result is True: # Player won the minigame
@@ -1219,15 +1236,16 @@ def run_level(screen, level, current_seed_count, shop_upgrades, player_upgrades,
                      save_save_data(save_data)
              else: # Player lost the minigame (minigame_result is False)
                  print(f"{minigame_name} failed (player lost).")
-                 # If lost Inverse Gauntlet, end the run
-                 if minigame_name == "Inverse Gauntlet":
-                     print("Lost Inverse Gauntlet, ending run.")
-                     level_outcome = "lose" # Set outcome to trigger game over logic
+                 # <<< CHANGE: Set level_outcome to "lose" if minigame 2 or 3 is lost >>>
+                 if minigame_name == "David’s Revenge" or minigame_name == "Inverse Gauntlet":
+                     print(f"Lost {minigame_name}, ending run or loading checkpoint.")
+                     level_outcome = "lose" # Set outcome to trigger standard loss logic
+                 # <<< END CHANGE >>>
 
          elif minigame_result == "menu": # Player chose 'Main Menu' from pause
               level_outcome = "menu"
-
     # --- END FIX ---
+
     # --- FIX: Return current_seed_count instead of undefined current_seeds ---
     return (level_outcome, current_seed_count, level_duration, shop_upgrades, player_upgrades, checkpoint_count,
             seeds_collected_this_level, checkpoint_data if level_outcome == 'lose' and checkpoint_saved_this_level else None,
@@ -1411,7 +1429,7 @@ def main():
                 for master_ach in MASTER_ACHIEVEMENT_LIST:
                     if master_ach != ACH_TRUE_SUPERSEED and master_ach in save_data["achievements"]:
                         unlocked_count += 1
-                # Check if all *other* achievements are unlocked
+                # Check if all other achievements are unlocked
                 if unlocked_count >= len(MASTER_ACHIEVEMENT_LIST) - 1:
                     add_achievement(ACH_TRUE_SUPERSEED, achievement_banners_list, session_set)
             # --- End check ---
@@ -1509,51 +1527,92 @@ def main():
                 if not was_loaded_from_checkpoint: total_seeds_collected_run += seeds_this_level # Accumulate seeds only if not loaded
 
                 if save_data.get("total_seeds_accumulated", 0) >= 1000: add_achievement(ACH_SEED_BANK_BARON, None, unlocked_achievements_this_session_main)
-                # Check Bountiful Harvest using seeds collected *in that level*
+                # Check Bountiful Harvest using seeds collected in that level
                 if seeds_this_level >= 100: add_achievement(ACH_BOUNTIFUL_HARVEST, None, unlocked_achievements_this_session_main)
 
+                # --- Post-Level Minigame Check ---
+                minigame_occurred = False
+                if level_outcome == "win" and current_level < MAX_LEVEL and random.random() < 0.05:
+                    minigame_occurred = True
+                    minigames = [ ("Seed Harvest Frenzy", minigame_1, "Seeds Collected"), ("David’s Revenge", minigame_2, "1 SUPR"), ("Inverse Gauntlet", minigame_3, "2 SUPR") ]
+                    minigame_name, minigame_func, rewards = random.choice(minigames)
+                    announce_mini_game(screen, minigame_name, rewards)
+
+                    # <<< CHANGE: Pass circle_collision to relevant minigames >>>
+                    if minigame_func == minigame_1:
+                        minigame_result = minigame_func(screen, selected_character=selected_driver)
+                    else:
+                        minigame_result = minigame_func(screen, selected_character=selected_driver, collision_func=circle_collision)
+                    # <<< END CHANGE >>>
+
+                    # --- Minigame Result Processing ---
+                    if isinstance(minigame_result, tuple): # Seed Harvest (minigame_1)
+                        success, extra_seeds = minigame_result
+                        if success is True:
+                            current_seeds += extra_seeds # Add collected seeds
+                            save_data["total_seeds_accumulated"] = save_data.get("total_seeds_accumulated", 0) + extra_seeds
+                            if add_achievement: add_achievement(ACH_SEED_HARVEST_VICTOR, None, unlocked_achievements_this_session_main)
+                            save_save_data(save_data)
+                        elif success == "menu": level_outcome = "menu"; game_running = False # Stop game loop
+                        elif success is False: print(f"{minigame_name} failed or exited (loss).")
+
+                    elif isinstance(minigame_result, bool): # David's Revenge (minigame_2) or Inverse Gauntlet (minigame_3)
+                        if minigame_result is True: # Player won
+                            ach_name = ""; supr_reward = 0
+                            if minigame_name == "David’s Revenge": supr_reward = 1; ach_name = ACH_DAVID_REVENGE_VICTOR
+                            elif minigame_name == "Inverse Gauntlet": supr_reward = 2; ach_name = ACH_INVERSE_GAUNTLET_VICTOR
+                            if supr_reward > 0:
+                                save_data["supercollateral_coins"] = save_data.get("supercollateral_coins", 0) + supr_reward
+                                if ach_name and add_achievement: add_achievement(ach_name, None, unlocked_achievements_this_session_main)
+                                save_save_data(save_data)
+                        else: # Player lost (minigame_result is False)
+                            print(f"{minigame_name} failed (player lost).")
+                            # <<< CHANGE: Set level_outcome to "lose" if minigame 2 or 3 is lost >>>
+                            if minigame_name == "David’s Revenge" or minigame_name == "Inverse Gauntlet":
+                                print(f"Lost {minigame_name}, will trigger loss processing.")
+                                level_outcome = "lose" # Set outcome to trigger standard loss logic AFTER minigame processing
+                            # <<< END CHANGE >>>
+
+                    elif minigame_result == "menu": # Player chose 'Main Menu' from pause
+                         level_outcome = "menu"; game_running = False # Stop game loop
+                # --- End Minigame Result Processing ---
+
+                # --- Game Flow Logic (Handles level_outcome potentially modified by minigame loss) ---
                 if level_outcome == "win":
                     show_level_clear(screen, current_level, level_duration)
-                    # Pacifist run check happens *within* run_level now, just before returning "win"
                     current_level += 1
-                    # --- Check win condition AFTER incrementing level ---
+                    # Check game win condition AFTER incrementing level
                     if current_level > MAX_LEVEL:
-                         if total_time < (30 * 60): # Check if total time is under 30 minutes
-                             add_achievement(ACH_TGE_ACHIEVED, None, unlocked_achievements_this_session_main)
-                             print(f"TGE Achieved! Time: {total_time:.2f}s")
-                         else:
-                             print(f"Game Won! Time: {total_time:.2f}s (Over 30 mins for TGE achievement)")
-
-                         # Check character-specific win achievements
+                         if total_time < (30 * 60): add_achievement(ACH_TGE_ACHIEVED, None, unlocked_achievements_this_session_main)
+                         else: print(f"Game Won! Time: {total_time:.2f}s (Over 30 mins for TGE achievement)")
+                         # Character-specific win achievements
                          if selected_driver == 1: add_achievement(ACH_WIN_SEEDGUY, None, unlocked_achievements_this_session_main)
                          elif selected_driver == 2: add_achievement(ACH_WIN_JOAO, None, unlocked_achievements_this_session_main)
                          elif selected_driver == 3: add_achievement(ACH_WIN_MESKY, None, unlocked_achievements_this_session_main)
                          elif selected_driver == 4: add_achievement(ACH_WIN_CHOSEN, None, unlocked_achievements_this_session_main)
-
-                         # --- FIX: Show WIN screen instead of game over screen ---
-                         win_game_name = show_win_screen(screen, total_time, total_seeds_collected_run) # Call the win screen
-                         save_score(win_game_name, MAX_LEVEL, total_time, total_seeds_collected_run) # Save score
-                         # --- END FIX ---
-
+                         # Show WIN screen
+                         win_game_name = show_win_screen(screen, total_time, total_seeds_collected_run)
+                         save_score(win_game_name, MAX_LEVEL, total_time, total_seeds_collected_run)
+                         # Update stats and end game
                          save_data["total_runs_completed"] = save_data.get("total_runs_completed", 0) + 1
                          save_save_data(save_data)
-                         game_running = False; break
+                         game_running = False; break # Exit the level loop
 
                 elif level_outcome == "lose":
-                    add_achievement(ACH_SPROUTED, None, unlocked_achievements_this_session_main) # Check "Sprouted" on loss too
+                    add_achievement(ACH_SPROUTED, None, unlocked_achievements_this_session_main) # Check "Sprouted" on loss
                     if cp_data_on_loss:
                          saved_checkpoint_data = cp_data_on_loss
                          print("Player died, attempting to load last saved checkpoint.")
-                         # No game over screen here, loop will continue and load checkpoint
+                         # Loop continues, will load checkpoint at the start
                     else:
                         print("No checkpoint, game ended.")
                         save_data["total_runs_completed"] = save_data.get("total_runs_completed", 0) + 1
                         save_save_data(save_data)
-                        # --- Show Game Over Screen AFTER loss and NO checkpoint ---
+                        # Show Game Over Screen
                         game_over_name = show_game_over(screen, current_level, total_time, total_seeds_collected_run)
                         save_score(game_over_name, current_level, total_time, total_seeds_collected_run)
-                        # --- End Game Over Screen ---
-                        game_running = False; break
+                        game_running = False; break # Exit the level loop
+
                 elif level_outcome == "menu": game_running = False; break
                 elif level_outcome == "exit": game_running = False; option = "exit"; break
 
@@ -1564,4 +1623,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-# --- END OF FILE main.py ---

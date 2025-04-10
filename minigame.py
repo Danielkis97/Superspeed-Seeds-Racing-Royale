@@ -1,4 +1,3 @@
-
 import pygame
 import random
 import math, os
@@ -6,15 +5,18 @@ import time # Added for the pause in minigame 3
 from settings import *
 # --- Import specific classes needed ---
 # --- FIX: Add EarthEnemy to the import list ---
+# <<< CHANGE: Import circle_collision function from game_objects >>>
 from game_objects import (CollectibleSeed, David, FinishLine, Player, Enemy, EarthEnemy,
-                          ShooterEnemy, Projectile, Particle, AbilityEffect) # Added Particle, AbilityEffect, EarthEnemy
-# --- END FIX ---
+                          ShooterEnemy, Projectile, Particle, AbilityEffect) # Added Particle, AbilityEffect, EarthEnemy, circle_collision
+# <<< END CHANGE >>>
+
 # --- Import UI elements needed for HUD and pause ---
 from ui import draw_ability_icon, play_click_sound, pause_menu, FONT_LG, FONT_SM, FONT_MD, draw_shield_aura # Added draw_shield_aura
 
 # Global sprite group for ability effects within minigames
 minigame_ability_effects = pygame.sprite.Group()
 
+# Minigame 1 remains unchanged as its collision logic is specific to seeds
 def minigame_1(screen, selected_character=1): # Accept selected character
     clock = pygame.time.Clock()
     start_time = pygame.time.get_ticks()
@@ -194,7 +196,12 @@ def minigame_1(screen, selected_character=1): # Accept selected character
     return True, collected_seeds
 
 
-def minigame_2(screen, selected_character=1): # Accept selected character
+# <<< CHANGE: Add collision_func parameter >>>
+def minigame_2(screen, selected_character=1, collision_func=None):
+    if collision_func is None:
+        print("ERROR: Minigame 2 requires a collision function!")
+        return False # Cannot run without collision logic
+
     clock = pygame.time.Clock()
     start_time = pygame.time.get_ticks()
     duration = MINIGAME2_DURATION
@@ -306,39 +313,30 @@ def minigame_2(screen, selected_character=1): # Accept selected character
         all_enemies = enemies.sprites()
         for i, enemy in enumerate(all_enemies):
             other_enemies_list_for_collision = all_enemies[i+1:]
+            # <<< CHANGE: Pass player ref to David's update >>>
             enemy.update(player, speed_modifier=effective_speed_modifier_for_updates, dt=dt, other_enemies=other_enemies_list_for_collision)
-
+            # <<< END CHANGE >>>
 
         # --- Update ability effects & particles ---
         minigame_ability_effects.update(dt, player) # Pass player ref
         particles.update(dt)
 
-        def collide_circle_mg2(player_sprite, enemy_sprite):
-             px = getattr(player_sprite, 'pos_x', player_sprite.rect.centerx)
-             py = getattr(player_sprite, 'pos_y', player_sprite.rect.centery)
-             ex = getattr(enemy_sprite, 'pos_x', enemy_sprite.rect.centerx)
-             ey = getattr(enemy_sprite, 'pos_y', enemy_sprite.rect.centery)
-             pr = getattr(player_sprite, 'radius', player_sprite.rect.width / 2)
-             er = getattr(enemy_sprite, 'radius', enemy_sprite.rect.width / 2)
-             dx = px - ex
-             dy = py - ey
-             dist_sq = dx*dx + dy*dy
-             radius_sum = pr + er
-             return dist_sq < (radius_sum * radius_sum)
+        # <<< REMOVED local collide_circle_mg2 function >>>
 
-             # --- Collision check ---
-             # --- FIX: Remove invincibility check for this specific minigame ---
-             # The goal is pure survival, invincibility shouldn't prevent loss here.
-             # if current_time_sec >= player.invincible_until: # REMOVED THIS CHECK
-             if pygame.sprite.spritecollideany(player, enemies, collide_circle_mg2):
-                 if os.path.exists(DEAD_SOUND) and pygame.mixer.get_init():
-                     try:
-                         pygame.mixer.Sound(DEAD_SOUND).play()
-                     except pygame.error as e:
-                         print(f"Minigame dead sound error: {e}")
-                 return False  # Return loss on hit
-             # --- END FIX ---
-             # --- End Collision Check ---
+        # --- Collision check ---
+        # --- FIX: Remove invincibility check for this specific minigame ---
+        # The goal is pure survival, invincibility shouldn't prevent loss here.
+        # <<< CHANGE: Use passed-in collision_func >>>
+        if pygame.sprite.spritecollideany(player, enemies, collision_func):
+             if os.path.exists(DEAD_SOUND) and pygame.mixer.get_init():
+                 try:
+                     pygame.mixer.Sound(DEAD_SOUND).play()
+                 except pygame.error as e:
+                     print(f"Minigame dead sound error: {e}")
+             return False  # Return loss on hit
+        # <<< END CHANGE >>>
+        # --- END FIX ---
+        # --- End Collision Check ---
 
         # --- Drawing (No Camera Offset) ---
         if bg_david: screen.blit(bg_david, (0,0))
@@ -394,7 +392,12 @@ def minigame_2(screen, selected_character=1): # Accept selected character
     return True # Return win if time runs out
 
 
-def minigame_3(screen, selected_character=1): # Accept selected character
+# <<< CHANGE: Add collision_func parameter >>>
+def minigame_3(screen, selected_character=1, collision_func=None):
+    if collision_func is None:
+        print("ERROR: Minigame 3 requires a collision function!")
+        return False # Cannot run without collision logic
+
     clock = pygame.time.Clock()
     # --- Player starts near the top-center now, facing down ---
     player_start_x = SCREEN_WIDTH // 2
@@ -574,7 +577,9 @@ def minigame_3(screen, selected_character=1): # Accept selected character
         all_enemies = enemies.sprites()
         for i, enemy in enumerate(all_enemies):
             other_enemies_list_for_collision = all_enemies[i+1:]
+            # <<< CHANGE: Pass None for player ref to avoid homing >>>
             enemy.update(player=None, speed_modifier=effective_speed_modifier_for_updates, dt=dt, other_enemies=other_enemies_list_for_collision)
+            # <<< END CHANGE >>>
 
 
         projectiles.update(dt=dt, speed_modifier=1.0) # Projectiles not slowed by Mesky
@@ -583,38 +588,31 @@ def minigame_3(screen, selected_character=1): # Accept selected character
         minigame_ability_effects.update(dt, player) # Pass player ref
         particles.update(dt)
 
-        def collide_circle_mg3_player(player_sprite, other_sprite):
-            px = getattr(player_sprite, 'pos_x', player_sprite.rect.centerx)
-            py = getattr(player_sprite, 'pos_y', player_sprite.rect.centery)
-            ox = getattr(other_sprite, 'pos_x', other_sprite.rect.centerx)
-            oy = getattr(other_sprite, 'pos_y', other_sprite.rect.centery)
-            pr = getattr(player_sprite, 'radius', player_sprite.rect.width / 2)
-            orad = getattr(other_sprite, 'radius', other_sprite.rect.width / 2)
-            dx = px - ox
-            dy = py - oy
-            dist_sq = dx*dx + dy*dy
-            radius_sum = pr + orad
-            return dist_sq < (radius_sum * radius_sum)
+        # <<< REMOVED local collide_circle_mg3_player function >>>
 
         # --- Collision checks (only if not invincible) ---
         if current_time_sec >= player.invincible_until:
-            if pygame.sprite.spritecollideany(player, enemies, collide_circle_mg3_player):
+            # <<< CHANGE: Use passed-in collision_func >>>
+            if pygame.sprite.spritecollideany(player, enemies, collision_func):
                 if os.path.exists(DEAD_SOUND) and pygame.mixer.get_init():
                     try: pygame.mixer.Sound(DEAD_SOUND).play()
                     except pygame.error as e: print(f"Minigame dead sound error: {e}")
                 return False # Return loss
 
-            collided_projectile = pygame.sprite.spritecollideany(player, projectiles, collide_circle_mg3_player)
+            collided_projectile = pygame.sprite.spritecollideany(player, projectiles, collision_func)
             if collided_projectile:
                  if os.path.exists(DEAD_SOUND) and pygame.mixer.get_init():
                      try: pygame.mixer.Sound(DEAD_SOUND).play()
                      except pygame.error as e: print(f"Minigame dead sound error: {e}")
                  collided_projectile.kill() # Remove the projectile
                  return False # Return loss
+            # <<< END CHANGE >>>
         # --- End Collision Checks ---
 
         # --- Win condition ---
-        if pygame.sprite.collide_rect(player, finish_goal):
+        # <<< CHANGE: Use passed-in collision_func for goal collision >>>
+        if collision_func(player, finish_goal):
+        # <<< END CHANGE >>>
             # Optionally play win sound
             return True # Return win
         # --- End of game updates ---
