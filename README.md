@@ -152,7 +152,7 @@ Randomly encountered after winning levels (4% chance), offering bonus rewards:
 
 1.  **Download:** Download the project files (e.g., as a ZIP) or clone the repository using Git:
     ```bash
-    git clone (https://github.com/Danielkis97/Superspeed-Seeds-Racing-Royale/)
+    git clone https://github.com/Danielkis97/Superspeed-Seeds-Racing-Royale/
     ```
 2.  **Install Requirements:**
     *   Make sure you have Python 3 installed (version 3.10+ recommended).
