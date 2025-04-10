@@ -159,8 +159,12 @@ Randomly encountered after winning levels (4% chance), offering bonus rewards:
     *   Open your terminal or command prompt.
     *   Use the `cd` command to go into the main project folder (the one containing `main.py`, `Assets`, `media`, etc.).
         ```bash
-        cd path/to/Superspeed-Seeds-Racing-Royale
+        cd path/to/Superspeed-Seeds-Racing-Royale  
         ```
+         or
+         ```bash
+        cd Superspeed-Seeds-Racing-Royale
+           ```
 3.  **Create & Activate Virtual Environment (Recommended):**
     *   It's best practice to create an isolated environment for the project's dependencies.
     *   **Create:**
