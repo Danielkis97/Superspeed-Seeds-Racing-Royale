@@ -23,20 +23,21 @@ Choose your **SeedDriver**, master unique abilities, collect **Seeds** for upgra
     *   **Roaming Fudders:** Basic enemies bouncing off walls (types vary by world).
     *   **Homing Fudders:** Some enemies will track you down!
     *   **Seedslingers (Shooters):** Stationary turrets firing projectiles. Appear from Level 10 onwards.
-    *   **David:** The relentless founder appears in later levels, homing in and performing devastating dashes.
+    *   **David:** The relentless founder appears in later levels(20+), homing in and performing devastating dashes.
 *   **Power-Ups:** Grab temporary boosts:
     *   ❄️ **Freeze:** Slows down all enemies for 2 seconds.
     *   🧲 **Magnet:** Pulls nearby Seeds towards you for 3 seconds.
     *   🛡️ **Shield:** (In-Game Shop) Provides a one-hit temporary shield.
+    *   🪢 **Multiplier:** Souble seeds picked up for a set amount of time. 
 *   **Upgrade Systems:**
     *   **In-Game Shop (Seeds):** Spend collected Seeds mid-run to upgrade Speed, increase Seed/Enemy counts, buy a one-hit Shield, slow enemies, or purchase extra Checkpoint uses.
-    *   **Repayment Vault (SCC):** Use **SuperCollateral Coins** (earned from Achievements) for *permanent* upgrades like base speed boosts, starting shields, cooldown reductions, larger pickup radius, passive enemy slowing aura, and more!
+    *   **Repayment Vault (SUPR):** Use **SUPR Coins** (earned from Achievements) for *permanent* upgrades like base speed boosts, starting shields, cooldown reductions, larger pickup radius, passive enemy slowing aura, and more!
 *   **Checkpoint System:** Start with a base number of checkpoints (plus vault upgrades). Click the Checkpoint button strategically to save your progress mid-run.
 *   **Challenging Minigames:** Encounter random minigames after levels for bonus Seeds or SCC:
     *   🌾 **Seed Harvest Frenzy:** Collect seeds against the clock.
     *   ☠️ **David's Revenge:** Survive David's relentless pursuit.
     *   🌀 **Inverse Gauntlet:** Navigate a deadly obstacle course with reversed controls.
-*   **Achievements & Hall of Seeds:** Unlock dozens of achievements across Bronze, Silver, and Gold tiers, earning SCC rewards. Track your progress and stats in the Hall of Seeds.
+*   **Achievements & Hall of Seeds:** Unlock dozens of achievements across Bronze, Silver, and Gold tiers, earning SUPR rewards. Track your progress and stats in the Hall of Seeds.
 *   **Seederboard:** Compete for the best times and highest levels reached. Save your score after each run!
 *   **Story & Lore:** Unravel the saga through an introductory video (requires MoviePy/NumPy).
 *   **Difficulty Modes:** Choose between Normal and Hard (more/faster enemies).
@@ -53,9 +54,9 @@ Select one of four heroes to pilot your Seed Pod:
 2.  🧔 **João:** Mastermind dev, David's favorite.
     *   *Ability:* **Speed Boost** - Increased speed and acceleration for 5s. (30s Cooldown)
 3.  🎯 **Mesky:** Marketing genius, turns markets bullish.
-    *   *Ability:* **Slow Field** - Creates an aura slowing nearby enemies for 3s. (60s Cooldown)
+    *   *Ability:* **Slow Field** - Creates an aura slowing nearby enemies for 3s. (30 Cooldown)
 4.  ⭐ **The Chosen Seed:** Blessed, confident, main character energy.
-    *   *Ability:* **Immunity** - Become invincible for 5s. (120s Cooldown)
+    *   *Ability:* **Immunity** - Become invincible for 5s. (60s Cooldown)
 
 ---
 
@@ -79,7 +80,7 @@ Select one of four heroes to pilot your Seed Pod:
 8.  **Space World (71-80):** Zero-G racing (visually!).
 9.  **Cyber World (81-90):** Digital domain, high-tech hazards.
 10. **Mystic World (91-94):** **INVERSE CONTROLS!** A true test of adaptation.
-11. **Flashing World (95-100):** The chaotic, flashing final stretch to Mainnet!
+11. **Superseed World (95-100):** The chaotic, flashing final stretch to Mainnet!
 
 ---
 
@@ -92,9 +93,7 @@ Prepare for unpredictable conditions:
 | **Clear** ☀️ | No effect                     |
 | **Rain** 🌧️ | −20% acceleration            |
 | **Wind** 💨 | Strong horizontal drift       |
-| **Snow** ❄️ | −50% acceleration            |
-| **Fog** 🌫️ | Reduced Visibility            |
-
+| **Snow** ❄️ | −50% acceleration            |we
 ---
 
 ## 🛒 Upgrades & Currencies
@@ -119,7 +118,7 @@ Prepare for unpredictable conditions:
 
 ## 🎮 Minigames
 
-Randomly encountered after winning levels (4% chance), offering bonus rewards:
+Randomly encountered after winning levels (5% chance), offering bonus rewards:
 
 *   **Seed Harvest Frenzy:** Collect as many Seeds as possible before time runs out! (Reward: Seeds)
 *   **David's Revenge:** Survive David's relentless attacks for 30 seconds! (Reward: 1 SCC)
@@ -130,7 +129,7 @@ Randomly encountered after winning levels (4% chance), offering bonus rewards:
 ## 📖 Story & Achievements
 
 *   **Story Video:** Watch the intro cinematic explaining the fall of the Superseed and David's wrath (Requires `moviepy` and `numpy`). Plays automatically on first start after selecting character. Can be skipped with 'K'.
-*   **Hall of Seeds:** Track your unlocked Achievements (Bronze, Silver, Gold), view total stats (Seeds, Magnets collected), and see your current SCC balance. Earn SCC for each tier unlocked!
+*   **Hall of Seeds:** Track your unlocked Achievements (Bronze, Silver, Gold), view total stats (Seeds, Magnets collected), and see your current SUPR balance. Earn SUPR for each tier unlocked!
 
 ---
 
