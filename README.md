@@ -25,21 +25,20 @@ Choose your **SeedDriver**, master unique abilities, collect **Seeds** for upgra
     *   **Seedslingers (Shooters):** Stationary turrets firing projectiles. Appear from Level 10 onwards.
     *   **David:** The relentless founder appears in later levels, homing in and performing devastating dashes.
 *   **Power-Ups:** Grab temporary boosts:
-    *   ❄️ **Freeze:** Slows down all enemies.
-    *   🧲 **Magnet:** Pulls nearby Seeds towards you.
-    *   🛡️ **Shield:** Provides a one-hit temporary shield.
-    *   ✨ **Double Seeds:** Doubles the value of collected Seeds for a short time.
+    *   ❄️ **Freeze:** Slows down all enemies for 2 seconds.
+    *   🧲 **Magnet:** Pulls nearby Seeds towards you for 3 seconds.
+    *   🛡️ **Shield:** (In-Game Shop) Provides a one-hit temporary shield.
 *   **Upgrade Systems:**
     *   **In-Game Shop (Seeds):** Spend collected Seeds mid-run to upgrade Speed, increase Seed/Enemy counts, buy a one-hit Shield, slow enemies, or purchase extra Checkpoint uses.
-    *   **Repayment Vault (SUPR):** Use **SUPR** tokens (earned from Achievements) for *permanent* upgrades like base speed boosts, starting shields, cooldown reductions, larger pickup radius, passive enemy slowing aura, and more!
-*   **Checkpoint System:** Start with a base number of checkpoints (plus vault upgrades). Use 'C' strategically to save your progress mid-run.
-*   **Challenging Minigames:** Encounter random minigames after levels for bonus Seeds or SUPR:
+    *   **Repayment Vault (SCC):** Use **SuperCollateral Coins** (earned from Achievements) for *permanent* upgrades like base speed boosts, starting shields, cooldown reductions, larger pickup radius, passive enemy slowing aura, and more!
+*   **Checkpoint System:** Start with a base number of checkpoints (plus vault upgrades). Click the Checkpoint button strategically to save your progress mid-run.
+*   **Challenging Minigames:** Encounter random minigames after levels for bonus Seeds or SCC:
     *   🌾 **Seed Harvest Frenzy:** Collect seeds against the clock.
     *   ☠️ **David's Revenge:** Survive David's relentless pursuit.
     *   🌀 **Inverse Gauntlet:** Navigate a deadly obstacle course with reversed controls.
-*   **Achievements & Hall of Seeds:** Unlock dozens of achievements across Bronze, Silver, and Gold tiers, earning SUPR rewards. Track your progress and stats in the Hall of Seeds.
+*   **Achievements & Hall of Seeds:** Unlock dozens of achievements across Bronze, Silver, and Gold tiers, earning SCC rewards. Track your progress and stats in the Hall of Seeds.
 *   **Seederboard:** Compete for the best times and highest levels reached. Save your score after each run!
-*   **Story & Lore:** Unravel the saga through an introductory video and a dedicated **Manwha reader** in the main menu.
+*   **Story & Lore:** Unravel the saga through an introductory video (requires MoviePy/NumPy).
 *   **Difficulty Modes:** Choose between Normal and Hard (more/faster enemies).
 *   **Visual Flair:** Enjoy player trails, ability animations, particle effects, shield auras, and distinct world backgrounds.
 
@@ -54,9 +53,9 @@ Select one of four heroes to pilot your Seed Pod:
 2.  🧔 **João:** Mastermind dev, David's favorite.
     *   *Ability:* **Speed Boost** - Increased speed and acceleration for 5s. (30s Cooldown)
 3.  🎯 **Mesky:** Marketing genius, turns markets bullish.
-    *   *Ability:* **Slow Field** - Creates an aura slowing nearby enemies for 5s. (30s Cooldown)
+    *   *Ability:* **Slow Field** - Creates an aura slowing nearby enemies for 3s. (60s Cooldown)
 4.  ⭐ **The Chosen Seed:** Blessed, confident, main character energy.
-    *   *Ability:* **Immunity** - Become invincible for 5s. (45s Cooldown)
+    *   *Ability:* **Immunity** - Become invincible for 5s. (120s Cooldown)
 
 ---
 
@@ -80,7 +79,7 @@ Select one of four heroes to pilot your Seed Pod:
 8.  **Space World (71-80):** Zero-G racing (visually!).
 9.  **Cyber World (81-90):** Digital domain, high-tech hazards.
 10. **Mystic World (91-94):** **INVERSE CONTROLS!** A true test of adaptation.
-11. **Superseed World (95-100):** The chaotic, flashing final stretch to Mainnet!
+11. **Flashing World (95-100):** The chaotic, flashing final stretch to Mainnet!
 
 ---
 
@@ -94,44 +93,44 @@ Prepare for unpredictable conditions:
 | **Rain** 🌧️ | −20% acceleration            |
 | **Wind** 💨 | Strong horizontal drift       |
 | **Snow** ❄️ | −50% acceleration            |
+| **Fog** 🌫️ | Reduced Visibility            |
 
 ---
 
 ## 🛒 Upgrades & Currencies
 
-*   **Seeds 🌱:** Primary currency collected during runs. Used in the **In-Game Shop** for temporary run upgrades:
-    *   **Speed:** +5% Player Max Speed / +2% Enemy Speed per level (Scaling Cost).
-    *   **Seed/Enemy:** +2 Seeds & +1 Enemy per level (Max 10, Scaling Cost).
+*   **Seeds 🌱:** Primary currency collected during runs. Used in the **In-Game Shop** (Click "Shop" button top-right during gameplay):
+    *   **Speed:** +5% Max Speed per level (Scaling Cost).
+    *   **Seed/Enemy:** +1 Seed Drop & +1 Enemy Spawn per level (Max 10, Scaling Cost).
     *   **Shield:** One-hit protection (Cost scales with level).
-    *   **Enemy Slow:** -5% Enemy Speed per level (Cost scales with level).
+    *   **Enemy Slow:** -5% Enemy Speed per level (Scaling Cost).
     *   **Checkpoint:** Buy +1 Checkpoint use for the current run (Fixed Cost).
-*   **SUPR Tokens ⭐:** Earned by unlocking **Achievements**. Used in the **Repayment Vault** (Main Menu) for *permanent* upgrades:
+*   **SuperCollateral Coins (SCC) ⭐:** Earned by unlocking **Achievements**. Used in the **Repayment Vault** (Main Menu) for *permanent* upgrades:
     *   **Node Speed Boost:** +4% Base Speed per Lvl (Max 2).
     *   **Respawn Node:** +1 Starting Max Checkpoint per Lvl (Max 2).
-    *   **SeedFi Powerhouse:** Seeds collected count as 2x (Max 1).
-    *   **Pick up Lines:** +5px Pickup Radius per Lvl (Max 5).
-    *   **2Chairs 1 Goal:** Reduce ability cooldown by 20% (Max 1).
-    *   **Joao's Loophole:** Start every run with a shield (Max 1).
-    *   **Mesky's Anger:** Passive aura slows nearby enemies by 7% per Lvl (Max 2).
+    *   **Seed Multiplier:** Seeds collected count as 2x (Max 1).
+    *   **Seed Pickup Radius:** +5px Pickup Radius per Lvl (Max 10).
+    *   **Ability CDR:** Reduce ability cooldown by 20% (Max 1).
+    *   **Start With Shield:** Begin each run with a shield (Max 1).
+    *   **Enemy Slow Aura:** Passive aura slows nearby enemies by 7% per Lvl (Max 2).
     *   **Blessing of Superseed:** Increase power-up spawn chance by +10% (Max 1).
 
 ---
 
 ## 🎮 Minigames
 
-Randomly encountered after levels, offering bonus rewards:
+Randomly encountered after winning levels (4% chance), offering bonus rewards:
 
 *   **Seed Harvest Frenzy:** Collect as many Seeds as possible before time runs out! (Reward: Seeds)
-*   **David's Revenge:** Survive David's relentless attacks for 30 seconds! (Reward: 1 SUPR)
-*   **Inverse Gauntlet:** Reach the exit portal while dodging enemies and shooters with **reversed controls!** (Reward: 2 SUPR)
+*   **David's Revenge:** Survive David's relentless attacks for 30 seconds! (Reward: 1 SCC)
+*   **Inverse Gauntlet:** Reach the exit portal while dodging enemies and shooters with **reversed controls!** (Reward: 2 SCC)
 
 ---
 
-## 📖 Story, Manwha & Achievements
+## 📖 Story & Achievements
 
-*   **Story Video:** Watch the intro cinematic explaining the fall of the Superseed and David's wrath (Requires `moviepy` and `numpy`).
-*   **Manwha Reader:** Read "David's favorite Superseed saga" - the tale of Seedguy's redemption arc with João.
-*   **Hall of Seeds:** Track your unlocked Achievements (Bronze, Silver, Gold), view total stats (Seeds, Magnets collected), and see your current SUPR balance.
+*   **Story Video:** Watch the intro cinematic explaining the fall of the Superseed and David's wrath (Requires `moviepy` and `numpy`). Plays automatically on first start after selecting character. Can be skipped with 'K'.
+*   **Hall of Seeds:** Track your unlocked Achievements (Bronze, Silver, Gold), view total stats (Seeds, Magnets collected), and see your current SCC balance. Earn SCC for each tier unlocked!
 
 ---
 
@@ -140,26 +139,36 @@ Randomly encountered after levels, offering bonus rewards:
 *   **Movement:** Arrow Keys / WASD
 *   **Ability:** SPACE
 *   **Pause/Resume:** P
-*   **Checkpoint:** C (If available)
-*   **Help/Skip:** K (Shows controls overlay / Skips tutorials/video/manwha pages)
-*   **Save Score:** S (On Game Over / Win screen)
+*   **Checkpoint:** Click Button Top-Right (If available)
+*   **Shop:** Click Button Top-Right
+*   **Skip:** K (Skips tutorials/video)
+*   **Save Score:** S (On Game Over / Win screen after entering name)
 *   **UI Interaction:** Mouse Click (Shop, Checkpoint Button, Menus)
 *   **Quit/Back:** Escape
 
 ---
 
-## 🛠️ Installation
+## 🚀 How to Play
 
-**Requirements:**
-*   Python 3.10+
-*   Pygame (`pip install pygame`)
-*   *(Optional for Video Playback)* MoviePy (`pip install moviepy`)
-*   *(Optional for Video Playback)* NumPy (`pip install numpy`)
-
-1.  **Clone** or download the repository.
-2.  **Navigate** to the project folder in your terminal.
-3.  **Install** requirements: `pip install pygame moviepy numpy`
-4.  **Run** the game: `python main.py`
+1.  **Download:** Download the project files (e.g., as a ZIP) or clone the repository using Git:
+    ```bash
+    git clone <repository_url>
+    ```
+2.  **Install Requirements:**
+    *   Make sure you have Python 3 installed (version 3.10+ recommended).
+    *   Open your terminal or command prompt.
+    *   Navigate (`cd`) into the downloaded/cloned project folder (the one containing `main.py`).
+    *   Install the necessary libraries:
+        ```bash
+        pip install pygame numpy moviepy
+        ```
+        *Note: `numpy` and `moviepy` are only needed for the optional intro video.*
+3.  **Run the Game:**
+    *   While still in the project folder in your terminal, run:
+        ```bash
+        python main.py
+        ```
+4.  **Enjoy!** Use the main menu options to start, view leaderboards, manage permanent upgrades (Vault), or see achievements.
 
 ---
 
